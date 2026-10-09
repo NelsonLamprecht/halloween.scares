@@ -426,3 +426,12 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# Build output
+[Bb]in/
+
+# MonsterBox
+*.config.json
+wifi.config.yaml
+diode-install-plan.md
+.claude/settings.local.json

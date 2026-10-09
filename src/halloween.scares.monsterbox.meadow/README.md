@@ -21,7 +21,7 @@ The Maple server listens on port `5417` and advertises itself over UDP. Requests
 | `/sound` | `filenumber` (0-254) | `200` queued, `400` missing or invalid, `500` failed |
 | `/shake` | `bi`/`ei` iterations (default 25/50, `0 <= bi <= ei <= 50`), `bd`/`ed` delay in ms (default 50/75, `1 <= bd <= ed <= 1000`) | `200` shake finished, `400` invalid parameters, `409` already shaking, `500` failed |
 
-`/shake` holds the request open until the shake finishes, so the client's HTTP timeout must allow for it. Example requests are in [`halloween.scares.monsterbox.meadow/monsterbox.http`](halloween.scares.monsterbox.meadow/monsterbox.http).
+`/shake` holds the request open until the shake finishes, so the client's HTTP timeout must allow for it. Example requests are in [`monsterbox.http`](monsterbox.http).
 
 ## LED
 
@@ -29,6 +29,6 @@ Red until the server is up, then green while idle. The LED pulses while a comman
 
 ## Setup
 
-1. Copy `halloween.scares.monsterbox.meadow/wifi.config.yaml.template` to `wifi.config.yaml` and fill in the WiFi credentials. The file is gitignored.
+1. Copy `wifi.config.yaml.template` to `wifi.config.yaml` and fill in the WiFi credentials. The file is gitignored.
 2. Optionally set `App.DeviceName` in `app.config.yaml`; it is the name the mobile app sees.
-3. Build and deploy `halloween.scares.monsterbox.meadow.sln` to the Meadow F7 with the Meadow tooling in Visual Studio or VS Code.
+3. Build and deploy `src/halloween.scares.sln` to the Meadow F7 with the Meadow tooling in Visual Studio or VS Code.
