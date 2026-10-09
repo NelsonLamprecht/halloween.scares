@@ -53,6 +53,17 @@ namespace halloween.scares.monsterbox.meadow.Controllers
         {
             cancellationTokenSource?.Cancel();
 
+bett            // our own animation task (pulse / running colors) must also be done writing
+            try
+            {
+                animationTask?.Wait(500);
+            }
+            catch (Exception)
+            {
+                // cancelled or faulted; either way it's finished
+            }
+            animationTask = null;
+
             // StopAnimation() only completes once the animation thread has exited, so wait
             // for it: otherwise a final brightness write from that thread can land after the
             // caller's next SetColor. Meadow has no synchronization context and the animation
@@ -123,9 +134,40 @@ namespace halloween.scares.monsterbox.meadow.Controllers
                 return;
             }
 
+            // RgbPwmLed.StartPulse(Color, ...) showed white on the board, so the fade is
+            // done here by scaling the brightness of a fixed-hue color with SetColor
             Stop();
-            onBoardRGBLed.StartPulse(GetRandomColor());
+            cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+            var hue = (float)(_random.NextDouble() * 360);
+            animationTask = Task.Run(() => PulseLoop(hue, token));
         }
+
+        async Task PulseLoop(float hue, CancellationToken cancellationToken)
+        {
+            var clock = Stopwatch.StartNew();
+            try
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    var phase = (clock.Elapsed.TotalMilliseconds % PulseDuration.TotalMilliseconds)
+                        / PulseDuration.TotalMilliseconds;
+                    // 0 -> 1 -> 0 over one cycle, starting dark
+                    var wave = (float)(0.5 - 0.5 * Math.Cos(2 * Math.PI * phase));
+                    var brightness = PulseLowBrightness + (1 - PulseLowBrightness) * wave;
+                    onBoardRGBLed.SetColor(Color.FromHsba(hue, 1, brightness));
+                    await Task.Delay(40, cancellationToken);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Stop() was called; nothing to clean up
+            }
+        }
+
+        // one full fade up/down of the activity pulse
+        private static readonly TimeSpan PulseDuration = TimeSpan.FromSeconds(2);
+        private const float PulseLowBrightness = 0.1f;
 
         // Pulses while at least one command is being handled, then returns to ReadyColor.
         // Counted, because Maple handles requests in parallel: the LED only goes back to
@@ -207,8 +249,8 @@ namespace halloween.scares.monsterbox.meadow.Controllers
         // Color shown when the board is idle and ready to accept a command
         public static readonly Color ReadyColor = Color.Green;
 
-        // shortest time the pulse stays visible
-        private static readonly TimeSpan MinActivityPulse = TimeSpan.FromSeconds(1);
+        // shortest time the pulse stays visible (one full pulse cycle)
+        private static readonly TimeSpan MinActivityPulse = PulseDuration;
 
         private readonly object _activityLock = new object();
         private readonly Stopwatch _pulseClock = new Stopwatch();
@@ -252,7 +294,8 @@ namespace halloween.scares.monsterbox.meadow.Controllers
 
         protected Color GetRandomColor()
         {
-            return Color.FromHsba((float)_random.NextDouble(), 1, 1);
+            // hue is in degrees (0-360), not 0-1
+            return Color.FromHsba((float)(_random.NextDouble() * 360), 1, 1);
         }
 
         public void Dispose()
