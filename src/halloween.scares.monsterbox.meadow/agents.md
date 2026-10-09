@@ -55,7 +55,9 @@ When the cast is used, the hardware field stays null on any other device type, s
 
 ## LED status
 
-The onboard LED is red until the Maple server is up, then `LedController.ReadyColor` (green) while idle. Accepted commands pulse it via `LedController.BeginActivity()`/`EndActivity()`, which are counted because requests run in parallel: the pulse starts on the first active request and the LED returns to ready only when the last one finishes, and never sooner than 1s after the pulse started (`MinActivityPulse`), with the delay done on a background task so it never holds up an HTTP response. `SignalActivity()` is begin+end for commands that complete instantly. `/shake` pulses for the whole shake (begin after validation, end in a `finally`); `/sound` pulses once the file is queued. Rejected requests (400) don't pulse.
+The onboard LED is red until the Maple server is up, then `LedController.ReadyColor` (green) while idle. Accepted commands pulse it via `LedController.BeginActivity()`/`EndActivity()`, which are counted because requests run in parallel: the pulse starts on the first active request and the LED returns to ready only when the last one finishes, and never sooner than one full pulse cycle (2s, `MinActivityPulse` = `PulseDuration`) after the pulse started, with the delay done on a background task so it never holds up an HTTP response. `SignalActivity()` is begin+end for commands that complete instantly. `/shake` pulses for the whole shake (begin after validation, end in a `finally`); `/sound` pulses once the file is queued. Rejected requests (400) don't pulse.
+
+The pulse is hand-rolled (`LedController.PulseLoop`): one random hue per activity, brightness faded 10%→100%→10% over `PulseDuration` via `SetColor(Color.FromHsba(...))`. It doesn't use `RgbPwmLed.StartPulse(Color, ...)`, which doesn't render the color on the board (plain white). `Color.FromHsba` takes hue in degrees (0–360), not 0–1. `Stop()` cancels and waits for `animationTask` as well as the library animation, so no late write lands after the caller's next `SetColor`.
 
 ## Relay wiring
 
