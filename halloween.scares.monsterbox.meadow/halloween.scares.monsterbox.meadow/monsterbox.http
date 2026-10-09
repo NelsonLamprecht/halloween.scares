@@ -16,4 +16,4 @@ POST http://{{host}}/shake
 POST http://{{host}}/shake?bi=5&ei=10&bd=100&ed=150
 
 ### Shake with a long, aggressive run
-POST http://{{host}}/shake?bi=75&ei=100&bd=25&ed=40
+POST http://{{host}}/shake?bi=40&ei=50&bd=25&ed=40

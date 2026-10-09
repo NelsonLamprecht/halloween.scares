@@ -1,7 +1,7 @@
 ﻿using Meadow;
 using System.Threading;
 
-namespace meadow_monsterbox
+namespace halloween.scares.monsterbox.meadow
 {
     internal class Program
     {

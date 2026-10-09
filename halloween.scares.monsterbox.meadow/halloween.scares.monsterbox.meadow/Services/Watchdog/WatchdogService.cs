@@ -4,7 +4,7 @@ using System.Threading;
 using Meadow;
 using Meadow.Logging;
 
-namespace meadow_monsterbox.Services.Watchdog
+namespace halloween.scares.monsterbox.meadow.Services.Watchdog
 {
     internal class WatchdogService : BaseService, IWatchdogService
     {

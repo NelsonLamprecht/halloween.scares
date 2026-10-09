@@ -6,7 +6,7 @@ using Meadow.Hardware;
 using Meadow.Logging;
 using Meadow.Peripherals.Relays;
 
-namespace meadow_monsterbox.Controllers
+namespace halloween.scares.monsterbox.meadow.Controllers
 {
     /// <summary>
     /// The commands all inverted since the pneumatics are keeping the values closed

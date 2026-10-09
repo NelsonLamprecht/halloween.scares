@@ -1,12 +1,11 @@
+using Meadow.Logging;
 using System.Threading.Tasks;
 
-using Meadow.Logging;
-
-namespace meadow_monsterbox.Controllers
+namespace halloween.scares.monsterbox.meadow.Services
 {
-    public class BaseController
+    public class BaseService: IRunableService
     {
-        public BaseController(Logger logger)
+        public BaseService(Logger logger)
         {
             Logger = logger;
         }

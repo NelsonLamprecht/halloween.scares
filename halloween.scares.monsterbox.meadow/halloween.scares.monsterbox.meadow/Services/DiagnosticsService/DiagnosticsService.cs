@@ -2,7 +2,7 @@ using Meadow;
 using Meadow.Hardware;
 using Meadow.Logging;
 
-namespace meadow_monsterbox.Services.DiagnosticsService
+namespace halloween.scares.monsterbox.meadow.Services.DiagnosticsService
 {
     public class DiagnosticsService : BaseService
     {

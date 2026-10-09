@@ -8,7 +8,7 @@ using Meadow.Devices;
 using Meadow.Foundation.Audio.Mp3;
 using Meadow.Logging;
 
-namespace meadow_monsterbox.Controllers
+namespace halloween.scares.monsterbox.meadow.Controllers
 {
     internal class MP3Controller : BaseController, IDisposable
     {

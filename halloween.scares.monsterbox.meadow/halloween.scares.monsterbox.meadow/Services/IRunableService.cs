@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace meadow_monsterbox.Services
+namespace halloween.scares.monsterbox.meadow.Services
 {
     internal interface IRunableService
     {

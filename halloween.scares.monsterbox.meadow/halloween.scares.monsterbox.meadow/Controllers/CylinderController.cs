@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Meadow.Logging;
 
-namespace meadow_monsterbox.Controllers
+namespace halloween.scares.monsterbox.meadow.Controllers
 {
     internal class CylindersController : BaseController, IDisposable
     {

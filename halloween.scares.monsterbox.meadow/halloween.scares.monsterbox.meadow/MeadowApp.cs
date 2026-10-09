@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Meadow;
 using Meadow.Hardware;
 
-using meadow_monsterbox.Controllers;
-using meadow_monsterbox.Services.DiagnosticsService;
-using meadow_monsterbox.Services.MapleService;
-using meadow_monsterbox.Services.NetworkService;
-using meadow_monsterbox.Services.Watchdog;
+using halloween.scares.monsterbox.meadow.Controllers;
+using halloween.scares.monsterbox.meadow.Services.DiagnosticsService;
+using halloween.scares.monsterbox.meadow.Services.MapleService;
+using halloween.scares.monsterbox.meadow.Services.NetworkService;
+using halloween.scares.monsterbox.meadow.Services.Watchdog;
 
-namespace meadow_monsterbox
+namespace halloween.scares.monsterbox.meadow
 {
     public class MeadowApp : MeadowBase
     {

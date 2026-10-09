@@ -6,9 +6,9 @@ using Meadow;
 using Meadow.Foundation.Web.Maple.Routing;
 using Meadow.Foundation.Web.Maple;
 
-using meadow_monsterbox.Controllers;
+using halloween.scares.monsterbox.meadow.Controllers;
 
-namespace meadow_monsterbox
+namespace halloween.scares.monsterbox.meadow
 {
     public class ControllerRequestHandler : RequestHandlerBase
     {
